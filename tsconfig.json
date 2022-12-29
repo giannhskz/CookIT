@@ -20,6 +20,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/navbar.jsx", "app/user-information.jsx", "components/plzSign.jsx", "app/pantry/page.jsx", "app/pantry/session.jsx", "app/pantry/user.jsx", "app/pantry/table.jsx", "pages/api/incredients/index.js", "lib/utils/index.jsx", "lib/prisma/users.jsx"],
   "exclude": ["node_modules"]
 }
