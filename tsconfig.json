@@ -20,6 +20,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/navbar.jsx", "app/user-information.jsx", "components/plzSign.jsx", "app/pantry/page.jsx", "app/pantry/session.jsx", "app/pantry/user.jsx", "app/pantry/table.jsx", "pages/api/incredients/index.js", "lib/utils/index.jsx", "lib/prisma/users.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/navbar.jsx", "app/user-information.jsx", "components/plzSign.jsx", "app/pantry/page.jsx", "app/pantry/session.jsx", "app/pantry/user.jsx", "app/pantry/table.jsx", "app/recipelist/page.jsx", "app/page.jsx", "pages/api/incredients/index.js", "lib/utils/index.jsx", "lib/prisma/users.jsx"],
   "exclude": ["node_modules"]
 }

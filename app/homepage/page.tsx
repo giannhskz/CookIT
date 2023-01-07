@@ -9,6 +9,16 @@ import { PlzSign } from '../../components/plzSign';
 
 const HomePage = () => {
    const { data: session, status } = useSession();
+   const types = [
+      "snack",
+      "soup",
+      "breakfast",
+      "salad",
+      "appetizer",
+      "dessert",
+      "side dish",
+      "main course",
+    ];
    if (session){
    return (
    <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
@@ -72,39 +82,25 @@ const HomePage = () => {
                    <div className="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
                       <h3>
                          <a className=" font-semibold text-dark text-xl mb-4 block " >
-                           Find Recipes Including only your Incredients
+                           Find and Save Recipes based on your Incredients
                          </a>
                       </h3>
                       <p className="text-base text-body-color leading-relaxed mb-7">
                          Choose one of the following categories to find 10 random recipes ideas based on the incredients you own.
                       </p>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Breakfast
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Brunch
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Lunch
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Dinner
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Sandwiches
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Appetisers
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Soups
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Salads
-                      </a>
-                      <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
-                      Pasta
-                      </a>
+                      {types.map((type) => (
+                        <div
+                          key={type}
+                          className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover: transition"
+                        >
+                          <Link
+                            href="/logedrecipelist"
+                            as={`/logedrecipelist?type=${type}`}
+                          >
+                            {type}
+                          </Link>
+                        </div>
+                      ))}
                    </div>
                 </div>
                 </div>
