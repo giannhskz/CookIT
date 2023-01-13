@@ -11,16 +11,21 @@ const getQueryParams = () => {
   return params;
 };
 
-
-
-const RecipeList = () => {
-
-
+const RecipeList = ({ user }) => {
+  console.log(user);
+  const ingredientNames = user.userincredients.map(
+    (ingredient) => ingredient.name
+  );
   const searchRecipes = async (type) => {
     const offset = Math.floor(Math.random() * 150);
 
     const res = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&type=${type}&offset=${offset}&fillIngredients=true&addRecipeInformation=true&number=2`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&type=${type}&offset=${offset}&fillIngredients=true&addRecipeInformation=true&number=2&sort=max-used-ingredients`,
+      {
+        params: {
+          includeIngredients: ingredientNames.join(","),
+        },
+      }
     );
     return res.data;
   };
@@ -72,7 +77,7 @@ const RecipeList = () => {
       `You successfully executed the ${recipe.title}. Check your mail for more info`
     );
   }
-
+  // console.log(recipes.result.)]
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
@@ -158,9 +163,9 @@ const RecipeList = () => {
                           <div className="m-1">
                             <div className="p-1 bg-green-200 rounded-xl">
                               <span className="font-bold">
-                                Included Incredients:{" "}
+                                Used Incredients:{" "}
                               </span>
-                              {recipe.extendedIngredients.map((alling) => (
+                              {recipe.usedIngredients.map((alling) => (
                                 <span>{alling.name} | </span>
                               ))}
                             </div>

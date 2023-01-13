@@ -1,26 +1,23 @@
 "use client";
 import React from "react";
 import axios from "axios";
-import { useSession } from "next-auth/react";
-import useSWR from "swr";
-
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
-// const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
+const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
-// const getQueryParams = () => {
-//   const search = window.location.search;
-//   const params = new URLSearchParams(search);
-//   return params;
-// };
+const getQueryParams = () => {
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  return params;
+};
 
-const RecipeList = () => {
-  const searchRecipes = async (type) => {
+const Recipes = ({}) => {
+  const searchRecipes = async (ingredients) => {
     const offset = Math.floor(Math.random() * 150);
-    const maxReadyTime = 300;
 
     const res = await axios.get(
-      `https://mocki.io/v1/1325606e-9e42-4b04-a920-cf8fde439877`
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&offset=${offset}&fillIngredients=true&addRecipeInformation=true&number=2&sort=max-used-ingredients&includeIngredients=${ingredients}`
     );
     return res.data;
   };
@@ -29,28 +26,23 @@ const RecipeList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // useEffect(() => {
-  //   // const params = getQueryParams();
-  //   // const type = params.get("type");
+  useEffect(() => {
+    const params = getQueryParams();
+    const ingredients = params.get("includedIngredients");
 
-  //   const fetchRecipes = async () => {
-  //     try {
-  //       const data = await searchRecipes();
-  //       setRecipes(data);
-  //       setIsLoading(false);
-  //     } catch (error) {
-  //       setError(error);
-  //       setIsLoading(false);
-  //     }
-  //   };
+    const fetchRecipes = async () => {
+      try {
+        const data = await searchRecipes(ingredients);
+        setRecipes(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
+    };
 
-  //   fetchRecipes();
-  // }, []);
-
-  const { data } = useSWR(
-    `https://mocki.io/v1/1325606e-9e42-4b04-a920-cf8fde439877`,
-    searchRecipes
-  );
+    fetchRecipes();
+  }, []);
 
   const [showRecipe, setShowRecipe] = useState(null);
   const [showMe, setShowMe] = useState(false);
@@ -78,6 +70,27 @@ const RecipeList = () => {
     );
   }
 
+  const { data: session } = useSession();
+  async function sendEmail(missedIngredients, title, usedIngredients) {
+    const response = await fetch(`/api/sendmail`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: session.user.name,
+        email: session.user.email,
+        missedIngredients: missedIngredients,
+        title: title,
+        usedIngredients: usedIngredients,
+      }),
+    });
+
+    if (response.ok) {
+      alert("Email sent successfully!");
+    } else {
+      alert("Failed to send email.");
+    }
+  }
+
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
@@ -90,9 +103,9 @@ const RecipeList = () => {
           <div className="flex justify-center h-screen pt-4 w-screen">
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
-            {data  && (
+            {isLoading === false && (
               <div className="h-3/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
-                {data.results.map((recipe) => (
+                {recipes.results.map((recipe) => (
                   <div key={recipe.id}>
                     <div className="border-y-2 shadow-md rounded-xl   mx-2 my-2   hover:scale-95 easy-in duration-500">
                       <div className="grid grid-cols-5 gap-6 place-content-strech h-full w-full ">
@@ -163,9 +176,9 @@ const RecipeList = () => {
                           <div className="m-1">
                             <div className="p-1 bg-green-200 rounded-xl">
                               <span className="font-bold">
-                                Included Incredients:{" "}
+                                Used Incredients:{" "}
                               </span>
-                              {recipe.extendedIngredients.map((alling) => (
+                              {recipe.usedIngredients.map((alling) => (
                                 <span>{alling.name} | </span>
                               ))}
                             </div>
@@ -223,7 +236,13 @@ const RecipeList = () => {
                             </div>
                             <div className="flex justify-center mt-4">
                               <button
-                                onClick={(event) => cookitButton(event, recipe)}
+                                onClick={(event) =>
+                                  sendEmail(
+                                    recipe.missedIngredients,
+                                    recipe.title,
+                                    recipe.usedIngredients
+                                  ) && cookitButton(event, recipe)
+                                }
                                 className="group relative inline-block overflow-hidden border rounded-xl backdrop-blur-sm bg-black/20 border-red-200 px-8 py-3 focus:outline-none focus:ring"
                               >
                                 <span className="absolute inset-y-0 left-0 w-[2px] bg-red-200 transition-all group-hover:w-full group-active:bg-red-100"></span>
@@ -247,4 +266,4 @@ const RecipeList = () => {
   );
 };
 
-export default RecipeList;
+export default Recipes;

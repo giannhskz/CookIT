@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import Modal from "./Modal";
+import Link from "next/link";
+
 
 function handleDelete(id) {
   // Show a confirmation modal and delete the item if confirmed
@@ -66,6 +67,7 @@ const Table = ({ user }) => {
     // Close the modal and show a success message
     setShowModal(false);
   };
+  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   return (
     <div>
@@ -109,6 +111,26 @@ const Table = ({ user }) => {
                             <input
                               id="checkbox-table-1"
                               type="checkbox"
+                              checked={selectedIngredients.includes(
+                                incredient.name
+                              )}
+                              onChange={() => {
+                                if (
+                                  selectedIngredients.includes(incredient.name)
+                                ) {
+                                  setSelectedIngredients(
+                                    selectedIngredients.filter(
+                                      (id) => id !== incredient.name
+                                    )
+                                  );
+                                } else {
+                                  setSelectedIngredients([
+                                    ...selectedIngredients,
+                                    incredient.name,
+                                  ]);
+                                }
+                                console.log(selectedIngredients);
+                              }}
                               className="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             />
                             <label
@@ -126,12 +148,6 @@ const Table = ({ user }) => {
                           {incredient.quantity}
                         </td>
                         <td className="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                          {/* <a
-                            href="#"
-                            className="text-blue-600 dark:text-blue-500 hover:underline"
-                          >
-                            Edit
-                          </a> */}
                           <div
                             style={{
                               display:
@@ -143,7 +159,7 @@ const Table = ({ user }) => {
                           >
                             <div className="modal-content">
                               <form onSubmit={updateIngredient}>
-                                <label >
+                                <label>
                                   Name:
                                   <input
                                     className="m-1"
@@ -158,7 +174,7 @@ const Table = ({ user }) => {
                                 <label>
                                   Quantity:
                                   <input
-                                  className="m-1"
+                                    className="m-1"
                                     type="number"
                                     value={quantity}
                                     onChange={(event) =>
@@ -258,7 +274,12 @@ const Table = ({ user }) => {
       </div>
       <div className="flex justify-center pt-[100px]">
         <button className="p-4 backdrop-blur-sm bg-black/20 text-white font-semibold border border-red-200 rounded-full  hover:bg-red-200 hover:text-black hover:border-transparent transition ease-in duration-200 transform hover:-translate-y-1 active:translate-y-0">
-          <div>Find Recipes</div>
+          <Link
+            href="/pantryrecipes"
+            as={`/pantryrecipes?includedIngredients=${selectedIngredients}`}
+          >
+            Find Recipes
+          </Link>
         </button>
       </div>
     </div>
