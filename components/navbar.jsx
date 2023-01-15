@@ -14,7 +14,7 @@ export const Navbar = ({}) => {
           <div className="flex justify-center items-center">
             <Image src="/cookingLogo.png" width={100} height={100} />
           </div>
-          <div className="grid grid-cols-3 items-center">
+          <div className="grid grid-cols-5 items-center">
             <Link
               href="/homepage"
               className="hover:scale-125 ease-in duration-200 cursor-pointer pl-4"
@@ -30,6 +30,15 @@ export const Navbar = ({}) => {
             >
               PANTRY
             </Link>
+
+            <div className="border-l-2 h-[2.5rem] border-black/60 ml-8"></div>
+            <Link
+              href="/savedrecipes"
+              className="hover:scale-125 ease-in duration-200 cursor-pointer "
+            >
+              SAVED
+            </Link>
+
           </div>
 
           <div className="w-10/12 flex justify-end items-center">

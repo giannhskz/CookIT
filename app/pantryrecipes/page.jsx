@@ -52,7 +52,6 @@ const Recipes = ({}) => {
   }
 
   const [likedRecipe, setLikedRecipe] = useState({});
-
   function handleClick(recipe) {
     const newLikedRecipes = { ...likedRecipe };
     if (newLikedRecipes[recipe.id] === "pink") {
@@ -91,6 +90,35 @@ const Recipes = ({}) => {
     }
   }
 
+  const handleSave = async (recipe) => {
+    try {
+      const response = await fetch(`/api/saverecipe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          useremail: session.user.email,
+          recipeId: recipe.id,
+          title: recipe.title,
+          readyInMinutes: recipe.readyInMinutes,
+          servings: recipe.servings,
+          imageURL: recipe.image,
+          ingredients: recipe.extendedIngredients,
+          instructions: recipe.analyzedInstructions[0].steps,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Recipe saved successfully:", data);
+      } else {
+        console.log("Error saving recipe:", response);
+      }
+    } catch (error) {
+      console.log("Error saving recipe:", error);
+    }
+  };
+
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
@@ -114,9 +142,8 @@ const Recipes = ({}) => {
 
                           <span
                             onClick={() => {
-                              {
-                                handleClick(recipe);
-                              }
+                              handleClick(recipe);
+                              handleSave(recipe);
                             }}
                             className="flex justify-center mt-5 hover:cursor-pointer"
                           >

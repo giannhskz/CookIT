@@ -16,8 +16,33 @@ model User {
   accounts        Account[]
   sessions        Session[]
   userincredients UserIncredients[]
+  recipe          Recipe[]
 
   @@map("users")
+}
+
+model Recipe {
+  id                   String                 @id @default(auto()) @map("_id") @db.ObjectId
+  useremail            String
+  recipeId             Int
+  title                String
+  readyInMinutes       Int
+  servings             Int
+  imageURL             String
+  ingredients          Ingredients[]
+  analyzedInstructions AnalyzedInstructions[]
+  user                 User                   @relation(fields: [useremail], references: [email])
+
+  @@map("recipe")
+}
+
+type Ingredients {
+  original String
+}
+
+type AnalyzedInstructions {
+  number Int
+  step   String
 }
 
 model UserIncredients {

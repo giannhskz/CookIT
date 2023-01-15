@@ -2,6 +2,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
@@ -77,7 +78,22 @@ const RecipeList = ({ user }) => {
       `You successfully executed the ${recipe.title}. Check your mail for more info`
     );
   }
-  // console.log(recipes.result.)]
+
+  const { data: session } = useSession();
+  async function sendEmail(missedIngredients, title, usedIngredients) {
+    const response = await fetch(`/api/sendmail`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: session.user.name,
+        email: session.user.email,
+        missedIngredients: missedIngredients,
+        title: title,
+        usedIngredients: usedIngredients,
+      }),
+    });
+  }
+
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
@@ -223,7 +239,13 @@ const RecipeList = ({ user }) => {
                             </div>
                             <div className="flex justify-center mt-4">
                               <button
-                                onClick={(event) => cookitButton(event, recipe)}
+                                onClick={(event) =>
+                                  sendEmail(
+                                    recipe.missedIngredients,
+                                    recipe.title,
+                                    recipe.usedIngredients
+                                  ) && cookitButton(event, recipe)
+                                }
                                 className="group relative inline-block overflow-hidden border rounded-xl backdrop-blur-sm bg-black/20 border-red-200 px-8 py-3 focus:outline-none focus:ring"
                               >
                                 <span className="absolute inset-y-0 left-0 w-[2px] bg-red-200 transition-all group-hover:w-full group-active:bg-red-100"></span>
