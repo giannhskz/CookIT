@@ -27,12 +27,12 @@ const HomePage = () => {
 
    <div className='grid grid-cols-3 gap-4'>
           <div className='flex justify-start m-3 '>
-             <img width={100} height={100} className="rounded-full transition ease-in duration-200 transform hover:scale-110" alt={''} src={session?.user.image} />
+             <img width={100} height={100} className="rounded-full transition ease-in duration-200 transform hover:scale-110" alt={''} src={session.user.image} />
           </div>
 
           <div className='flex justify-center items-center'>
              <h2 className="backdrop-blur-sm bg-white/50  border-[#fce4e4]  rounded-full  font-semibold text-dark  text-3xl  p-3 align-middle" >
-                 Welcome {session?.user.name}
+                 Welcome {session.user.name}
              </h2>
           </div> 
         </div>

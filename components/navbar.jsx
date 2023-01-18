@@ -12,7 +12,7 @@ export const Navbar = ({}) => {
       return (
         <nav className="flex filter drop-shadow-md bg-red-100 px-4 items-center">
           <div className="flex justify-center items-center">
-            <Image src="/cookingLogo.png" width={100} height={100} />
+            <Image src="/cookingLogo.png" width={100} height={100} alt={""} />
           </div>
           <div className="grid grid-cols-5 items-center">
             <Link
