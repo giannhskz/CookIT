@@ -80,9 +80,9 @@ const Recipes = ({}) => {
         missedIngredients: missedIngredients,
         title: title,
         usedIngredients: usedIngredients,
-      }),
+      }), 
     });
-
+    
     if (response.ok) {
       alert("Email sent successfully!");
     } else {
@@ -132,7 +132,7 @@ const Recipes = ({}) => {
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {isLoading === false && (
-              <div className="h-3/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
+              <div className="h-2/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
                 {recipes.results.map((recipe) => (
                   <div key={recipe.id}>
                     <div className="border-y-2 shadow-md rounded-xl   mx-2 my-2   hover:scale-95 easy-in duration-500">

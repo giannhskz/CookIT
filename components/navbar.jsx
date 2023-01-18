@@ -38,7 +38,6 @@ export const Navbar = ({}) => {
             >
               SAVED
             </Link>
-
           </div>
 
           <div className="w-10/12 flex justify-end items-center">

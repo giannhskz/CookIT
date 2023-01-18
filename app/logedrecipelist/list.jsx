@@ -94,6 +94,35 @@ const RecipeList = ({ user }) => {
     });
   }
 
+  const handleSave = async (recipe) => {
+    try {
+      const response = await fetch(`/api/saverecipe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          useremail: session.user.email,
+          recipeId: recipe.id,
+          title: recipe.title,
+          readyInMinutes: recipe.readyInMinutes,
+          servings: recipe.servings,
+          imageURL: recipe.image,
+          ingredients: recipe.extendedIngredients,
+          instructions: recipe.analyzedInstructions[0].steps,
+        }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Recipe saved successfully:", data);
+      } else {
+        console.log("Error saving recipe:", response);
+      }
+    } catch (error) {
+      console.log("Error saving recipe:", error);
+    }
+  };
+
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
@@ -107,7 +136,7 @@ const RecipeList = ({ user }) => {
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {isLoading === false && (
-              <div className="h-3/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
+              <div className="h-3/5 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
                 {recipes.results.map((recipe) => (
                   <div key={recipe.id}>
                     <div className="border-y-2 shadow-md rounded-xl   mx-2 my-2   hover:scale-95 easy-in duration-500">
@@ -119,6 +148,7 @@ const RecipeList = ({ user }) => {
                             onClick={() => {
                               {
                                 handleClick(recipe);
+                                handleSave(recipe);
                               }
                             }}
                             className="flex justify-center mt-5 hover:cursor-pointer"

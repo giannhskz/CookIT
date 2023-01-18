@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 
-
 function handleDelete(id) {
   // Show a confirmation modal and delete the item if confirmed
   fetch(`/api/deleteincredients`, {
@@ -257,7 +256,12 @@ const Table = ({ user }) => {
                       Amount
                     </span>
                   </label>
-                  <button type="submit">add it</button>
+                  <button
+                    className="p-2 mt-2 ml-4 rounded-xl bg-red-200 hover:bg-transparent hover:text-white hover:border-2 hover:border-red-200 hover:font-bold"
+                    type="submit"
+                  >
+                    Add it
+                  </button>
                 </div>
               </div>
             </form>

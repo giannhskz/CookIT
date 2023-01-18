@@ -51,9 +51,8 @@ const RecipeList = () => {
     setShowMe(!showMe);
   }
 
-
   return (
-    <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
+    <div className="bg-[url('../public/food.png')] h-screen bg-fixed bg-cover bg-center ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
         <div className="flex justify-center items-center pt-6">
           <h2 className="backdrop-blur-sm bg-white/50   rounded-full  font-semibold text-dark  text-3xl  p-3">
@@ -65,15 +64,13 @@ const RecipeList = () => {
             {isLoading && <p>Loading...</p>}
             {error && <p>Error: {error.message}</p>}
             {isLoading === false && (
-              <div className="h-3/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
+              <div className="h-3/5 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
                 {recipes.results.map((recipe) => (
                   <div key={recipe.id}>
                     <div className="border-y-2 shadow-md rounded-xl   mx-2 my-2   hover:scale-95 easy-in duration-500">
                       <div className="grid grid-cols-5 gap-6 place-content-strech h-full w-full ">
                         <div className="col-span-1 rounded-xl m-0.5 overflow-hidden relative   ">
                           <img alt={recipe.title} src={`${recipe.image}`} />
-
-                          
                         </div>
 
                         <div

@@ -69,9 +69,9 @@ const HomePage = () => {
                        </ul>
                     </div>
                     <div className='flex justify-center mt-4'>
-                     <a className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
+                     <Link  href="/pantry" className="m-2 cursor-pointer inline-block py-1 px-5  bg-white/40 border border-[#fce4e4] rounded-full  text-body-color font-semibold  hover:bg-red-200 hover:text-xl transition">
                          Enter the Pantry
-                     </a>
+                     </Link>
                      </div>
                     </div>
                   </div>

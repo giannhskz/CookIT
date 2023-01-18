@@ -1,10 +1,7 @@
 "use client";
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
 import Link from "next/link";
-
-//  const types = ['snack',  'soup', 'breakfast', 'salad' , 'appetizer', 'dessert', 'side dish', 'main course']
+import { useEffect } from "react";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -19,7 +16,11 @@ export default function Home() {
     "main course",
   ];
 
-  
+  useEffect(() => {
+    if (session) {
+      window.location.replace("/homepage");
+    }
+  }, [session]);
 
   if (!session) {
     return (
@@ -51,11 +52,7 @@ export default function Home() {
                       </p>
 
                       <button
-                        onClick={() =>
-                          signIn("google", {
-                            callbackUrl: "http://localhost:3000/homepage",
-                          })
-                        }
+                        onClick={() => signIn("google")}
                         type="button"
                         className="text-white bg-[#4285F4] hover:bg-transparent hover:border-blue-500 hover:border-2  focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2"
                       >
@@ -78,6 +75,9 @@ export default function Home() {
                       </button>
 
                       <button
+                        onClick={() => {
+                          signIn("facebook");
+                        }}
                         type="button"
                         className="text-white bg-[#3b5998] hover:bg-transparent hover:border-2 hover:border-[#3b5998] focus:ring-4 focus:outline-none focus:ring-[#3b5998]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-[#3b5998]/55 mr-2 mb-2"
                       >
@@ -100,6 +100,9 @@ export default function Home() {
                       </button>
 
                       <button
+                        onClick={() => {
+                          signIn("github");
+                        }}
                         type="button"
                         className="text-white bg-[#24292F] hover:bg-transparent hover:border-2 hover:border-[#24292F] focus:ring-4 focus:outline-none focus:ring-[#24292F]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-500 dark:hover:bg-[#050708]/30 mr-2 mb-2"
                       >
@@ -173,7 +176,12 @@ export default function Home() {
               <div className="flex justify-center mx-4">
                 <div className="w-full md:w-full xl:w-1/2 px-4">
                   <div className="backdrop-blur-md bg-white/50 border-2 border-[#fce4e4] rounded-lg overflow-hidden h-full mb-10">
-                    <Link  href='/homepage' className="flex justify-center  text-lg font-bold ">Head to HomePage</Link>
+                    <Link
+                      href="/homepage"
+                      className="flex justify-center  text-lg font-bold "
+                    >
+                      Head to HomePage
+                    </Link>
                   </div>
                 </div>
               </div>

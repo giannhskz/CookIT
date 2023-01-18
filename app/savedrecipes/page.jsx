@@ -3,7 +3,6 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { data } from "autoprefixer";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -65,19 +64,18 @@ const Recipes = () => {
     );
   }
 
-  async function sendEmail(missedIngredients, title, usedIngredients) {
-    const response = await fetch(`/api/sendmail`, {
+  async function sendEmail(ingredients, title) {
+    const response = await fetch(`/api/savedmail`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         name: session.user.name,
         email: session.user.email,
-        missedIngredients: missedIngredients,
+        ingredients: ingredients,
         title: title,
-        usedIngredients: usedIngredients,
       }),
     });
-
+    console.log(ingredients);
     if (response.ok) {
       alert("Email sent successfully!");
     } else {
@@ -96,12 +94,12 @@ const Recipes = () => {
             onClick={handleFetchRecipes}
             className="backdrop-blur-sm bg-white/50   rounded-full  font-semibold text-dark  text-3xl  p-3"
           >
-            Recipes List
+            Saved Recipes
           </h2>
         </div>
         <div>
           <div className="flex justify-center h-screen pt-4 w-screen">
-            <div className="h-3/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
+            <div className="h-2/4 w-3/4 bg-white/95 border-2 rounded-lg border-[#fce4e4] shadow-lg m-12 overflow-y-auto ">
               {recipes.map((recipe) => (
                 <div key={recipe.id}>
                   <div className="border-y-2 shadow-md rounded-xl   mx-2 my-2   hover:scale-95 easy-in duration-500">
@@ -181,7 +179,7 @@ const Recipes = () => {
                             <hr />
                             <div>
                               <div className="flex justify-center font-bold p-2 m-2 text-lg">
-                                Incredients:
+                                Ingredients:
                               </div>
                               <div>
                                 <ul className="list-disc">
@@ -210,11 +208,8 @@ const Recipes = () => {
                             <div className="flex justify-center mt-4">
                               <button
                                 onClick={(event) =>
-                                  sendEmail(
-                                    recipe.missedIngredients,
-                                    recipe.title,
-                                    recipe.usedIngredients
-                                  ) && cookitButton(event, recipe)
+                                  sendEmail(recipe.ingredients, recipe.title) &&
+                                  cookitButton(event, recipe)
                                 }
                                 className="group relative inline-block overflow-hidden border rounded-xl backdrop-blur-sm bg-black/20 border-red-200 px-8 py-3 focus:outline-none focus:ring"
                               >

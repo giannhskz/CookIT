@@ -11,18 +11,18 @@ export const authOptions: NextAuthOptions = {
   adapter : PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: "990161805986-30lpgvjn2r4jjr13bi73b5goe4t8qfhs.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_SECRET,
       
     }),
-    /* FacebookProvider({
+    FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }), */
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
   ],
 };
 
