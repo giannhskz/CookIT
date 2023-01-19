@@ -5,11 +5,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
-const getQueryParams = () => {
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  return params;
-};
 
 const RecipeList = () => {
   const searchRecipes = async (type) => {

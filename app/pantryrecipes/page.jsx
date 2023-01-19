@@ -3,14 +3,9 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
 
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
-
-const getQueryParams = () => {
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  return params;
-};
 
 const Recipes = ({}) => {
   const searchRecipes = async (ingredients) => {
@@ -26,10 +21,10 @@ const Recipes = ({}) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const params = getQueryParams();
-    const ingredients = params.get("includedIngredients");
+  const searchParams = useSearchParams();
+  const ingredients = searchParams.get("includedIngredients");
 
+  useEffect(() => {
     const fetchRecipes = async () => {
       try {
         const data = await searchRecipes(ingredients);
@@ -42,7 +37,7 @@ const Recipes = ({}) => {
     };
 
     fetchRecipes();
-  }, []);
+  }, [ingredients]);
 
   const [showRecipe, setShowRecipe] = useState(null);
   const [showMe, setShowMe] = useState(false);
@@ -80,9 +75,9 @@ const Recipes = ({}) => {
         missedIngredients: missedIngredients,
         title: title,
         usedIngredients: usedIngredients,
-      }), 
+      }),
     });
-    
+
     if (response.ok) {
       alert("Email sent successfully!");
     } else {
