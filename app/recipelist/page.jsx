@@ -2,7 +2,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/router';
+import { useSearchParams } from "next/navigation";
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
 const getQueryParams = () => {
@@ -21,8 +21,8 @@ const RecipeList = () => {
     return res.data;
   };
 
-  const router = useRouter();
-  const { type = 'main course' } = router.query;
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -42,8 +42,6 @@ const RecipeList = () => {
   const [recipes, setRecipes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-
 
   const [showRecipe, setShowRecipe] = useState(null);
   const [showMe, setShowMe] = useState(false);
