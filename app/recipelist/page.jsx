@@ -25,26 +25,28 @@ const RecipeList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [type, setType] = useState('');
+
   useEffect(() => {
-    const params = getQueryParams();
-    const type = params.get("type");
-
-    const fetchRecipes = async () => {
-      try {
-        const data = await searchRecipes(type);
-        setRecipes(data);
-        setIsLoading(false);
-      } catch (error) {
-        setError(error);
-        setIsLoading(false);
+      const params = getQueryParams();
+      setType(params.get("type"));
+  }, [window.location.search]);
+  
+  useEffect(() => {
+      if (type) {
+        const fetchRecipes = async () => {
+          try {
+            const data = await searchRecipes(type);
+            setRecipes(data);
+            setIsLoading(false);
+          } catch (error) {
+            setError(error);
+            setIsLoading(false);
+          }
+        };
+        fetchRecipes();
       }
-    };
-
-    setTimeout(() => {
-      fetchRecipes();
-    }, 2000);
-  }, []);
-  console.log(recipes);
+    }, [type]);
 
   const [showRecipe, setShowRecipe] = useState(null);
   const [showMe, setShowMe] = useState(false);
