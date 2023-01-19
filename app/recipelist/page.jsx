@@ -2,6 +2,7 @@
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { isServer } from 'next';
 
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
@@ -28,25 +29,27 @@ const RecipeList = () => {
   const [type, setType] = useState('');
 
   useEffect(() => {
-      const params = getQueryParams();
-      setType(params.get("type"));
-  }, [window.location.search]);
-  
-  useEffect(() => {
-      if (type) {
-        const fetchRecipes = async () => {
-          try {
-            const data = await searchRecipes(type);
-            setRecipes(data);
-            setIsLoading(false);
-          } catch (error) {
-            setError(error);
-            setIsLoading(false);
-          }
-        };
-        fetchRecipes();
+    let params;
+    let type;
+    if (!isServer) {
+      params = new URLSearchParams(window.location.search);
+      type = params.get("type") || 'main course';
+    } else {
+      type = 'main course'
+    }
+    const fetchRecipes = async () => {
+      try {
+        const data = await searchRecipes(type);
+        setRecipes(data);
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
       }
-    }, [type]);
+    };
+
+    fetchRecipes();
+  }, []);
 
   const [showRecipe, setShowRecipe] = useState(null);
   const [showMe, setShowMe] = useState(false);
