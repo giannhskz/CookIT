@@ -40,7 +40,9 @@ const RecipeList = () => {
       }
     };
 
-    fetchRecipes();
+    setTimeout(() => {
+      fetchRecipes();
+    }, 2000);
   }, []);
   console.log(recipes);
 
