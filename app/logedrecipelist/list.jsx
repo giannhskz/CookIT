@@ -8,8 +8,9 @@ import { useSearchParams } from "next/navigation";
 
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
-const RecipeList = ({ user }) => {
-  console.log(user);
+const RecipeList = ({user}) => {
+  const { data: session } = useSession();
+
   const ingredientNames = user.userincredients.map(
     (ingredient) => ingredient.name
   );
@@ -75,7 +76,7 @@ const RecipeList = ({ user }) => {
     );
   }
 
-  const { data: session } = useSession();
+  
   async function sendEmail(missedIngredients, title, usedIngredients) {
     const response = await fetch(`/api/sendmail`, {
       method: "POST",
