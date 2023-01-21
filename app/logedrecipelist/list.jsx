@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-
+export const dynamic = "force-dynamic";
 
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 
