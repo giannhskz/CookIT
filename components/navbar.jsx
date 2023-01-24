@@ -3,10 +3,30 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
-
+import { useEffect, useState } from "react";
+import axios from "axios";
 export const Navbar = ({}) => {
   const { data: session, status } = useSession();
   console.log(session);
+
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (session) {
+      fetchUser();
+    }
+  }, [session]);
+
+  const fetchUser = async () => {
+    const res = await axios.post("/api/users", {
+      email: session.user.email,
+    });
+    setUser(res.data.user);
+    setIsLoading(false);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+  };
+
   {
     if (session) {
       return (

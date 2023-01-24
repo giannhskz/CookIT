@@ -4,16 +4,20 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-
-
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
+const RecipeList = () => {
 
-const RecipeList = ({user}) => {
+
+  
   const { data: session } = useSession();
-
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   const ingredientNames = user.userincredients.map(
     (ingredient) => ingredient.name
   );
+  
+
+
   const searchRecipes = async (type) => {
     const offset = Math.floor(Math.random() * 150);
 
@@ -76,7 +80,6 @@ const RecipeList = ({user}) => {
     );
   }
 
-  
   async function sendEmail(missedIngredients, title, usedIngredients) {
     const response = await fetch(`/api/sendmail`, {
       method: "POST",
