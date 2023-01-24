@@ -7,8 +7,7 @@ import { PlzSign } from "../../components/plzSign";
 import Cookies from "js-cookie";
 
 const HomePage = () => {
-  const storedUser = JSON.parse(Cookies.get("user"));
-  console.log(storedUser);
+   
 
   const { data: session, status } = useSession();
   const types = [

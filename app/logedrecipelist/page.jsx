@@ -61,14 +61,23 @@ import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import Cookies from "js-cookie";
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
+
+let user;
+try {
+  user = JSON.parse(Cookies.get("user"));
+} catch (e) {
+  user = null;
+}
+
 const RecipeList = () => {
-  const { data: session } = useSession();
-  const user = JSON.parse(Cookies.get("user"));
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   console.log(user);
+  const { data: session } = useSession();
   const ingredientNames = user.userincredients.map(
     (ingredient) => ingredient.name
   );
-
   const searchRecipes = async (type) => {
     const offset = Math.floor(Math.random() * 150);
 
@@ -173,7 +182,9 @@ const RecipeList = () => {
       console.log("Error saving recipe:", error);
     }
   };
-
+  if (!user) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="bg-[url('../public/food.png')] h-screen  bg-cover ">
       <div className=" bg-black bg-opacity-70 h-screen bg-cover">
