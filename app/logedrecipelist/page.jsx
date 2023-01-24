@@ -59,19 +59,15 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import Cookies from "js-cookie";
 const API_KEY = "8bf0b47f5fed47e38054c2c57b3dd12b";
 const RecipeList = () => {
-
-
-  
   const { data: session } = useSession();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(Cookies.get("user"));
   console.log(user);
   const ingredientNames = user.userincredients.map(
     (ingredient) => ingredient.name
   );
-  
-
 
   const searchRecipes = async (type) => {
     const offset = Math.floor(Math.random() * 150);

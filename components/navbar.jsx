@@ -5,6 +5,8 @@ import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Cookies from 'js-cookie'
+
 export const Navbar = ({}) => {
   const { data: session, status } = useSession();
   console.log(session);
@@ -24,7 +26,7 @@ export const Navbar = ({}) => {
     });
     setUser(res.data.user);
     setIsLoading(false);
-    localStorage.setItem("user", JSON.stringify(res.data.user));
+    Cookies.set("user", JSON.stringify(res.data.user));
   };
 
   {

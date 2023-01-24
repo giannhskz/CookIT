@@ -4,9 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession, signIn, signOut } from "next-auth/react";
 import { PlzSign } from "../../components/plzSign";
+import Cookies from "js-cookie";
 
 const HomePage = () => {
-  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedUser = JSON.parse(Cookies.get("user"));
   console.log(storedUser);
 
   const { data: session, status } = useSession();
