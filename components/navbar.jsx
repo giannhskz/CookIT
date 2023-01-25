@@ -66,7 +66,8 @@ export const Navbar = ({}) => {
             <>
               <button
                 onClick={() =>
-                  signOut({ callbackUrl: "http://localhost:3000" })
+                  signOut({ callbackUrl: "http://localhost:3000" } &&
+                  Cookies.remove("user"))
                 }
               >
                 Sign out
