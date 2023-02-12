@@ -82,7 +82,7 @@ const RecipeList = () => {
     const offset = Math.floor(Math.random() * 150);
 
     const res = await axios.get(
-      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&type=${type}&offset=${offset}&fillIngredients=true&addRecipeInformation=true&number=2&sort=max-used-ingredients`,
+      `https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&type=${type}&offset=${offset}&fillIngredients=true&addRecipeInformation=true&number=10&sort=max-used-ingredients`,
       {
         params: {
           includeIngredients: ingredientNames.join(","),
